@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Departament;
 use Illuminate\Http\Request;
 
-class DepartamentController extends Controller
+class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +13,7 @@ class DepartamentController extends Controller
      */
     public function index()
     {
-        $departaments = Departament::paginate();
-
-        return view('departaments.index', compact('departaments'));
+        //
     }
 
     /**
@@ -43,10 +40,10 @@ class DepartamentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Departament  $departament
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Departament $departament)
+    public function show($id)
     {
         //
     }
@@ -54,10 +51,10 @@ class DepartamentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Departament  $departament
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Departament $departament)
+    public function edit($id)
     {
         //
     }
@@ -66,10 +63,10 @@ class DepartamentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Departament  $departament
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Departament $departament)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -77,10 +74,10 @@ class DepartamentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Departament  $departament
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Departament $departament)
+    public function destroy($id)
     {
         //
     }
