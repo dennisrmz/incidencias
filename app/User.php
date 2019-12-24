@@ -26,4 +26,16 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function equipment(){
+        return $this->belongsTo(Equipment::class);
+    }
+
+    public function departament(){
+        return $this->belongsTo(Departament::class);
+    }
+
+    public function incidents(){
+        return $this->belongsToMany(Incident::class);
+    }
 }
