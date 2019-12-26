@@ -4004,10 +4004,21 @@ input[type="button"].btn-block {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  padding-left: 0;
+  padding-left: 2px;
   list-style: none;
   border-radius: 0.25rem; }
 
+.pagination li{
+  padding: 2px;
+}
+
+.pagination li span{
+  font-size: 18px;
+}
+
+.pagination li a{
+  font-size: 18px;
+}
 .page-link {
   position: relative;
   display: block;

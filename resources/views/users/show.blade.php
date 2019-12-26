@@ -5,16 +5,12 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Bienvenido</div>
-
+                <div class="panel-heading">Usuario</div>
+                  <br><br>
                 <div class="panel-body">
-                    @if (session('status'))
-                    <div class="alert alert-success">
-                        {{ session('status') }}
-                    </div>
-                    @endif
-
-                    Usted se ha logueado
+                  <p><strong>Nombre:</strong> {{ $user->name }}</p>
+                  <p><strong>Email:</strong> {{ $user->email }}</p>
+                  <p><strong>Usuario:</strong> {{ $user->username }}</p>
                 </div>
             </div>
         </div>

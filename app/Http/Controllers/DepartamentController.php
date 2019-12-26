@@ -14,7 +14,7 @@ class DepartamentController extends Controller
      */
     public function index()
     {
-        $departaments = Departament::paginate();
+        $departaments = Departament::paginate(10);
 
         return view('departaments.index', compact('departaments'));
     }
@@ -26,7 +26,7 @@ class DepartamentController extends Controller
      */
     public function create()
     {
-        //
+        return view('departaments.create');
     }
 
     /**
@@ -37,7 +37,12 @@ class DepartamentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $departament = new Departament;
+
+        $departament->nombre = $request->nombre;
+        $departament->id_lider = 1;
+        $departament->save();
+        return redirect()->route('departaments.edit', $departament->id)->with('info', 'Departamento Guardado con Exito');
     }
 
     /**
@@ -48,7 +53,7 @@ class DepartamentController extends Controller
      */
     public function show(Departament $departament)
     {
-        //
+        return view('departaments.show')->with('departament', $departament);
     }
 
     /**
@@ -59,7 +64,7 @@ class DepartamentController extends Controller
      */
     public function edit(Departament $departament)
     {
-        //
+        return view('departaments.edit', compact('departament'));
     }
 
     /**
@@ -70,8 +75,10 @@ class DepartamentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Departament $departament)
-    {
-        //
+    {  
+        Departament::find($departament->id)->update($request->all());
+
+        return redirect()->route('departaments.edit', $departament->id)->with('info', 'Departamento Actualizado con Exito');
     }
 
     /**
@@ -82,6 +89,8 @@ class DepartamentController extends Controller
      */
     public function destroy(Departament $departament)
     {
-        //
+        $departament->delete();
+
+        return back()->with('info', 'Eliminado Correctamente');
     }
 }
