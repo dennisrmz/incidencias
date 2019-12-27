@@ -31,9 +31,10 @@
           <a href="{{ route('users.index')}}">Usuarios</a>
         </li>
         @endcan
-        @can('roles.index')
+        
+        @can('equipments.index')
         <li>
-          <a href="{{ route('roles.index')}}">Roles</a>
+          <a href="{{ route('equipments.index')}}">Equipos</a>
         </li>
         @endcan
         <li>

@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('username')->unique()->nullable($value = true);
             $table->integer('equipments_id')->unsigned()->nullable($value = true);
-            $table->foreign('equipments_id')->references('id')->on('equipments')->onDelete('cascade');
+            $table->foreign('equipments_id')->references('id')->on('equipment')->onDelete('cascade');
             $table->integer('departaments_id')->unsigned()->nullable($value = true);
             $table->foreign('departaments_id')->references('id')->on('departaments')->onDelete('cascade');
             $table->rememberToken();

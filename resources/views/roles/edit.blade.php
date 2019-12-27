@@ -44,6 +44,7 @@
                         <div class="form-group">
                             <ul class="list-unstyled">
                                 @foreach($permissions as $permission)
+                                <!-- if para marcar checkbox seleccionado-->
                                 @if($permission->roles->contains($role->id))
                                 <li>
                                     <label class="form-check-label">

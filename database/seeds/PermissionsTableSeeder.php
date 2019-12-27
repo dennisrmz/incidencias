@@ -102,27 +102,27 @@ class PermissionsTableSeeder extends Seeder
         //Equipos
         Permission::create([
             'name'        => 'Navegar equipos',
-            'slug'        => 'equipaments.index',
+            'slug'        => 'equipments.index',
             'description' => 'Lista y navega todas los equipos del sistema',
         ]);
         Permission::create([
             'name'        => 'Ver detalle de equipo',
-            'slug'        => 'equipaments.show',
+            'slug'        => 'equipments.show',
             'description' => 'Ver en detalle cada equipo del sistema',
         ]);
         Permission::create([
             'name'        => 'Edicion de equipos',
-            'slug'        => 'equipaments.edit',
+            'slug'        => 'equipments.edit',
             'description' => 'Editar cualquier dato de un equipo del sistema',
         ]);
         Permission::create([
             'name'        => 'Eliminar equipos',
-            'slug'        => 'equipaments.destroy',
+            'slug'        => 'equipments.destroy',
             'description' => 'Eliminar cualquier equipo del sistema',
         ]);
         Permission::create([
             'name'        => 'Creacion de equipos',
-            'slug'        => 'equipaments.create',
+            'slug'        => 'equipments.create',
             'description' => 'Crear equipos en el sistema',
         ]);
 

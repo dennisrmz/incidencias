@@ -90,4 +90,26 @@ Route::middleware(['auth'])->group(function(){
 
 	Route::get('users/{user}/edit', 'UserController@edit')->name('users.edit')
 		->middleware('permission:users.edit');
+
+//Equipment
+	Route::post('equipments/store', 'EquipmentController@store')->name('equipments.store')
+		->middleware('permission:equipments.create');
+
+	Route::get('equipments', 'EquipmentController@index')->name('equipments.index')
+		->middleware('permission:equipments.index');
+
+	Route::get('equipments/create', 'EquipmentController@create')->name('equipments.create')
+		->middleware('permission:equipments.create');
+
+	Route::put('equipments/{equipment}', 'EquipmentController@update')->name('equipments.update')
+		->middleware('permission:equipments.edit');
+
+	Route::get('equipments/{equipment}', 'EquipmentController@show')->name('equipments.show')
+		->middleware('permission:equipments.show');
+
+	Route::delete('equipments/{equipment}', 'EquipmentController@destroy')->name('equipments.destroy')
+		->middleware('permission:equipments.destroy');
+
+	Route::get('equipments/{equipment}/edit', 'EquipmentController@edit')->name('equipments.edit')
+        ->middleware('permission:equipments.edit');
 });

@@ -14,6 +14,8 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     //Ver Roles
     public function index()
     {
         $roles = Role::paginate(10);
@@ -26,6 +28,8 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     //Vista para Crear el Rol
     public function create()
     {
         $permissions = Permission::get();
@@ -39,9 +43,10 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-
+    //Funcion para guardar el rol
     public function store(Request $request)
     {
+        //dd($request);
         $role = new Role;
 
         $role->name = $request->name;
@@ -50,6 +55,7 @@ class RoleController extends Controller
         $role->save();
 
         //Actualizar Permisos
+        //sync palabra reservada para guardar en tablas intermedias
         $role->permissions()->sync($request->get('permissions'));
 
         return redirect()->route('roles.edit', $role->id)->with('info', 'Rol Guardado con Exito');
@@ -61,6 +67,8 @@ class RoleController extends Controller
      * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
+
+     //Funcion Para ver Rol
     public function show(Role $role)
     {
         return view('roles.show')->with('role', $role);
@@ -72,6 +80,8 @@ class RoleController extends Controller
      * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
+
+     //Vista para editar el rol
     public function edit(Role $role)
     {
         $permissions = Permission::get();
@@ -86,6 +96,8 @@ class RoleController extends Controller
      * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
+
+     //funcion para editar el rol
     public function update(Request $request, Role $role)
     {  
 
@@ -104,6 +116,8 @@ class RoleController extends Controller
      * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
+
+     //funcion para eliminar el rol
     public function destroy(Role $role)
     {
         $role->delete();
