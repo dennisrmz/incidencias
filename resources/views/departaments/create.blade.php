@@ -16,7 +16,7 @@
                         </div>
                         <div class="form-group">
                             <label>Lider</label>
-                            <select id="lideres" name="users_id" class="form-control"  required>
+                            <select id="lideres" name="users_id" class="form-control" required>
                                 @foreach ($users as $user)
                                 <option value="{{ $user->id }}">{{ $user->name }}</option>
                                 @endforeach
@@ -36,7 +36,7 @@
 
 @section('script')
 <script type="text/javascript">
-        function valida_envia() {
+    function valida_envia() {
         //valido el nombre
         var select = document.getElementById("lideres");
         var options = document.getElementsByTagName("option");
@@ -44,29 +44,40 @@
 
         const usuarios = {!! json_encode($users) !!}
 
-        
+
+        // Obteniendo el valor que se puso en el campo nombre del formulario
+        nombre = document.getElementById("nombre").value;
+        if (nombre.length == 0 || /^\s+$/.test(nombre)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'El campo nombre se encuentra vacio',
+                timer: 3000
+                        })
+            return false;
+        } else {
             for (var i = 0; i < usuarios.length; i++) {
-                if (parseInt(select.value) == usuarios[i].id ) {
-                    if(usuarios[i].es_lider != 1){
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Correcto',
-                        text: 'Departamento Actualizado',
-                        timer: 3000
-                    })
-                    document.formulario.submit();
-                    }else{
+                if (parseInt(select.value) == usuarios[i].id) {
+                    if (usuarios[i].es_lider != 1) {
                         Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Este encargado ya posee un departamento asignado, seleccione otro',
-                        timer: 3000
-                    })
+                            icon: 'success',
+                            title: 'Correcto',
+                            text: 'Departamento Actualizado',
+                            timer: 3000
+                        })
+                        document.formulario.submit();
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Este encargado ya posee un departamento asignado, seleccione otro',
+                            timer: 3000
+                        })
                     }
-                    
-                } 
+                }
             }
         }
+    }
 </script>
 
 @endsection

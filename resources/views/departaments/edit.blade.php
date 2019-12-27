@@ -30,13 +30,13 @@
                             </select>
                         </div>
                         <div style="display: none">
-                             @foreach ($users as $user){
-                                @if($user->id == $departament->id_lider){
-                                    <input type="text" name="anterior" value="{{ $user->id }}">
-                                }
-                                @endif
-                             }
-                             @endforeach
+                            @foreach ($users as $user){
+                            @if($user->id == $departament->id_lider){
+                            <input type="text" name="anterior" value="{{ $user->id }}">
+                            }
+                            @endif
+                            }
+                            @endforeach
                         </div>
                         <input id="enviar" onclick="valida_envia()" class="btn btn-primary guardar" value="actualizar"></input>
                     </form>
@@ -58,39 +58,55 @@
 
         const usuarios = {!! json_encode($users) !!}
         const liderAct = {!! json_encode($departament->toArray()) !!}
+        
         console.log(liderAct.id_lider)
 
-        if (parseInt(select.value) == liderAct.id_lider) {
+        // Obteniendo el valor que se puso en el campo nombre del formulario
+        nombre = document.getElementById("nombre").value;
+        if (nombre.length == 0 || /^\s+$/.test(nombre)) {
             Swal.fire({
-                icon: 'success',
-                title: 'Correcto',
-                text: 'Departamento Actualizadoo',
+                icon: 'error',
+                title: 'Oops...',
+                text: 'El campo nombre se encuentra vacio',
                 timer: 3000
             })
-            document.formulario.submit();
+            return false;
         } else {
-            for (var i = 0; i < usuarios.length; i++) {
-                if (parseInt(select.value) == usuarios[i].id ) {
-                    if(usuarios[i].es_lider != 1){
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Correcto',
-                        text: 'Departamento Actualizado',
-                        timer: 3000
-                    })
-                    document.formulario.submit();
-                    }else{
-                        Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Este encargado ya posee un departamento asignado, seleccione otro',
-                        timer: 3000
-                    })
+            if (parseInt(select.value) == liderAct.id_lider) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Correcto',
+                    text: 'Departamento Actualizadoo',
+                    timer: 3000
+                })
+                document.formulario.submit();
+            } else {
+                for (var i = 0; i < usuarios.length; i++) {
+                    if (parseInt(select.value) == usuarios[i].id) {
+                        if (usuarios[i].es_lider != 1) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Correcto',
+                                text: 'Departamento Actualizado',
+                                timer: 3000
+                            })
+                            document.formulario.submit();
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Este encargado ya posee un departamento asignado, seleccione otro',
+                                timer: 3000
+                            })
+                        }
+
                     }
-                    
-                } 
+                }
             }
         }
+
+
+
     }
 </script>
 
