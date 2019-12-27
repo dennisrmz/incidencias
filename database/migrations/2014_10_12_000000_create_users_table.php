@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('username')->unique()->nullable($value = true);
+            $table->boolean('es_lider')->default(0);
             $table->integer('equipments_id')->unsigned()->nullable($value = true);
             $table->foreign('equipments_id')->references('id')->on('equipments')->onDelete('cascade');
             $table->integer('departaments_id')->unsigned()->nullable($value = true);

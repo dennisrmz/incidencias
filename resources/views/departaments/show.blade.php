@@ -5,11 +5,11 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Departamento</div>
+                <div class="panel-heading"><h1>Departamento</h1></div>
                   <br><br>
                 <div class="panel-body">
                   <p><strong>Nombre:</strong> {{ $departament->nombre}}</p>
-                  <p><strong>Lider:</strong> {{ $departament->id_lider}}</p>
+                  <p><strong>Lider:</strong> {{ $user->name }}</p>
 
 
                 </div>

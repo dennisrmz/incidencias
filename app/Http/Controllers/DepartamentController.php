@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use App\Departament;
+use App\User;
 use Illuminate\Http\Request;
 
 class DepartamentController extends Controller
@@ -26,7 +28,18 @@ class DepartamentController extends Controller
      */
     public function create()
     {
-        return view('departaments.create');
+        $departaments = Departament::all();
+
+
+
+        $users = DB::table('users')
+            ->join('role_user', 'users.id', 'role_user.user_id')
+            ->join('roles', 'role_user.role_id', 'roles.id')
+            ->select('users.name', 'users.id', 'users.es_lider')
+            ->where('roles.name', 'Encargado')
+            ->get()->toArray();
+
+        return view('departaments.create', compact('users', 'departaments'));
     }
 
     /**
@@ -37,11 +50,25 @@ class DepartamentController extends Controller
      */
     public function store(Request $request)
     {
+        //Creando Entidad Departamento
         $departament = new Departament;
 
+        //Obteniendo datos que se reciben de la vista
         $departament->nombre = $request->nombre;
-        $departament->id_lider = 1;
+        $departament->id_lider = $request->users_id;
+
+        //metodo para guardar departamento
         $departament->save();
+
+        //Buscando Usuario Que es seleccionado como encargado
+        $user = User::find($request->users_id);
+
+        //Asignandole a usuario que Es Encargado de Un Departamento
+        $user->es_lider = 1;
+
+        //Metodo para actualizar Usuario
+        $user->update();
+
         return redirect()->route('departaments.edit', $departament->id)->with('info', 'Departamento Guardado con Exito');
     }
 
@@ -53,7 +80,10 @@ class DepartamentController extends Controller
      */
     public function show(Departament $departament)
     {
-        return view('departaments.show')->with('departament', $departament);
+        $user = User::find($departament->id_lider);
+        
+        
+        return view('departaments.show', compact('departament', 'user'));
     }
 
     /**
@@ -64,7 +94,15 @@ class DepartamentController extends Controller
      */
     public function edit(Departament $departament)
     {
-        return view('departaments.edit', compact('departament'));
+        $departaments = Departament::all();
+
+        $users = DB::table('users')
+            ->join('role_user', 'users.id', 'role_user.user_id')
+            ->join('roles', 'role_user.role_id', 'roles.id')
+            ->select('users.name', 'users.id', 'users.es_lider')
+            ->where('roles.name', 'Encargado')
+            ->get()->toArray();
+        return view('departaments.edit', compact('departament', 'users', 'departaments'));
     }
 
     /**
@@ -75,8 +113,31 @@ class DepartamentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Departament $departament)
-    {  
+    {
+        
+
         Departament::find($departament->id)->update($request->all());
+
+        $users = User::find($request->anterior);
+
+        //Asignandole a usuario que Es Encargado de Un Departamento
+        $users->es_lider = 0;
+
+        //Metodo para actualizar Usuario
+        $users->update();
+
+        $user = User::find($request->id_lider);
+
+        //Asignandole a usuario que Es Encargado de Un Departamento
+        $user->es_lider = 1;
+
+        //Metodo para actualizar Usuario
+        $user->update();
+
+        
+
+        
+
 
         return redirect()->route('departaments.edit', $departament->id)->with('info', 'Departamento Actualizado con Exito');
     }
@@ -90,6 +151,14 @@ class DepartamentController extends Controller
     public function destroy(Departament $departament)
     {
         $departament->delete();
+
+        $user = User::find($departament->id_lider);
+
+        //Asignandole a usuario que Es Encargado de Un Departamento
+        $user->es_lider = 0;
+
+        //Metodo para actualizar Usuario
+        $user->update();
 
         return back()->with('info', 'Eliminado Correctamente');
     }
