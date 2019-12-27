@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Seeder;
 use Caffeinated\Shinobi\Models\Role;
-
 class UsersTableSeeder extends Seeder
 {
     /**

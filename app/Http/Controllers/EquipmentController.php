@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Equipment;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class EquipmentController extends Controller
@@ -14,7 +15,11 @@ class EquipmentController extends Controller
      */
     public function index()
     {
-        //
+        $equipments = Equipment::paginate(10);
+      
+
+
+        return view('equipments.index', compact('equipments'));
     }
 
     /**
@@ -24,7 +29,7 @@ class EquipmentController extends Controller
      */
     public function create()
     {
-        //
+        return view('equipments.create');
     }
 
     /**
@@ -35,7 +40,11 @@ class EquipmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $equipment = new Equipment;
+
+        $equipment->nombre = $request->nombre;
+        $equipment->save();
+        return redirect()->route('equipments.edit', $equipment->id)->with('info', 'Equipo guardado con éxito');
     }
 
     /**
@@ -46,7 +55,7 @@ class EquipmentController extends Controller
      */
     public function show(Equipment $equipment)
     {
-        //
+        return view('equipments.show')->with('equipment', $equipment);
     }
 
     /**
@@ -57,7 +66,7 @@ class EquipmentController extends Controller
      */
     public function edit(Equipment $equipment)
     {
-        //
+        return view('equipments.edit', compact('equipment'));
     }
 
     /**
@@ -69,7 +78,9 @@ class EquipmentController extends Controller
      */
     public function update(Request $request, Equipment $equipment)
     {
-        //
+        Equipment::find($equipment->id)->update($request->all());
+
+        return redirect()->route('equipments.edit', $equipment->id)->with('info', 'Equipo actualizado con éxito');
     }
 
     /**
@@ -80,6 +91,8 @@ class EquipmentController extends Controller
      */
     public function destroy(Equipment $equipment)
     {
-        //
+        $equipment->delete();
+
+        return back()->with('info', 'Eliminado Correctamente');
     }
 }

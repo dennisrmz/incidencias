@@ -23,7 +23,7 @@
     <div class="wrapper d-flex align-items-stretch">
         <div id="app">
             @guest
-
+        
             @else
             @include('inc.sidebar')
             @endguest
