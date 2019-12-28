@@ -41,7 +41,7 @@
                         <hr>
                         <div class="form-group">
                             <label>Departamentos</label>
-                            <select id="departamentos" name="departaments_id" class="form-control" required>
+                            <select id="departamentos" name="departaments_id" class="form-control">
 
                                 @if($user->departaments_id == NULL)
                                 <option value="" selected="true">No posee departamento</option>
@@ -59,7 +59,7 @@
                         <hr>
                         <div class="form-group">
                             <label>Equipos</label>
-                            <select id="equipos" name="equipments_id" class="form-control" required>
+                            <select id="equipos" name="equipments_id" class="form-control" >
                                 @if($user->equipments_id == NULL)
                                 <option value="" selected="true">No posee equipo</option>
                                 @endif

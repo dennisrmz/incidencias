@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use App\Departament;
 use App\User;
 use Illuminate\Http\Request;
+use phpDocumentor\Reflection\Types\Null_;
 
 class DepartamentController extends Controller
 {
@@ -60,12 +61,27 @@ class DepartamentController extends Controller
         //metodo para guardar departamento
         $departament->save();
 
+        
+        $ultimoDepartamento = DB::table('departaments')
+            ->select('departaments.id', 'departaments.nombre')
+            ->orderByDesc('departaments.id')
+            ->limit(1)
+            ->get()->toArray();
+
+
+        $users = DB::table('users')
+            ->join('role_user', 'users.id', 'role_user.user_id')
+            ->join('roles', 'role_user.role_id', 'roles.id')
+            ->select('users.name', 'users.id', 'users.es_lider')
+            ->where('roles.name', 'Encargado')
+            ->get()->toArray();
+
         //Buscando Usuario Que es seleccionado como encargado
         $user = User::find($request->users_id);
 
         //Asignandole a usuario que Es Encargado de Un Departamento
         $user->es_lider = 1;
-
+        $user->departaments_id = $ultimoDepartamento[0]->id;
         //Metodo para actualizar Usuario
         $user->update();
 
@@ -122,7 +138,7 @@ class DepartamentController extends Controller
 
         //Asignandole a usuario que Es Encargado de Un Departamento
         $users->es_lider = 0;
-
+        $users->departaments_id = NULL;
         //Metodo para actualizar Usuario
         $users->update();
 
@@ -130,7 +146,7 @@ class DepartamentController extends Controller
 
         //Asignandole a usuario que Es Encargado de Un Departamento
         $user->es_lider = 1;
-
+        $user->departaments_id = $departament->id;
         //Metodo para actualizar Usuario
         $user->update();
 

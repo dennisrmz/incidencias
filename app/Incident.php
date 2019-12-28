@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Incident extends Model
 {
+    protected $fillable = ['nombre','codigo', 'usuario_asigno', 'descripcion', 'estado_aprobacion', 'fecha_asignacion'];
+
     public function states(){
         return $this->belongsToMany('App\State', 'user_incident')->withPivot('state_id');
     }

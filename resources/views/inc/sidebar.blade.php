@@ -8,9 +8,11 @@
             <li>
               <a class="nav-link" href="{{ route('incidents.index')}}">Incidencias Asignadas</a>
             </li>
+            @can('incidents.create')
             <li>
               <a class="nav-link" href="{{ route('incidents.create')}}">Asignar Incidencias</a>
             </li>
+            @endcan
             <li>
               <a href="#">Home 3</a>
             </li>

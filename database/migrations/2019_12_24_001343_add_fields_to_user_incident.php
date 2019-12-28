@@ -19,7 +19,6 @@ class AddFieldsToUserIncident extends Migration
             $table->date('fecha_finalizacion')->nullable($value = true);
             $table->string('descripcion_rechazo')->nullable(True);
             $table->string('observaciones')->nullable(True);
-            $table->integer('usuario_asigno');
           });
     }
 

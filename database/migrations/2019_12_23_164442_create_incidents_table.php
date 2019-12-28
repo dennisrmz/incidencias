@@ -17,6 +17,7 @@ class CreateIncidentsTable extends Migration
             $table->increments('id');
             $table->string('nombre');
             $table->string('codigo');
+            $table->integer('usuario_asigno');
             $table->string('descripcion');
             $table->boolean('estado_aprobacion');
             $table->date('fecha_asignacion')->timestamps();
