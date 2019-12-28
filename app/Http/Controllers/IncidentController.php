@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Incident;
+use Caffeinated\Shinobi\Models\Role;
 use Illuminate\Http\Request;
 
 class IncidentController extends Controller
@@ -24,7 +25,9 @@ class IncidentController extends Controller
      */
     public function create()
     {
-        //
+        $roles = Role::get();
+
+        return view('incidents.create', compact('roles'));
     }
 
     /**

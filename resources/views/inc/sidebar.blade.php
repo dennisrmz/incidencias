@@ -3,13 +3,13 @@
       <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(/images/logo.jpg);"></a>
       <ul class="list-unstyled components mb-5">
         <li class="active">
-          <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
+          <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Incidencias</a>
           <ul class="collapse list-unstyled" id="homeSubmenu">
             <li>
-              <a href="#">Home 1</a>
+              <a class="nav-link" href="{{ route('incidents.index')}}">Incidencias Asignadas</a>
             </li>
             <li>
-              <a href="#">Home 2</a>
+              <a class="nav-link" href="{{ route('incidents.create')}}">Asignar Incidencias</a>
             </li>
             <li>
               <a href="#">Home 3</a>

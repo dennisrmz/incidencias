@@ -44,8 +44,14 @@
                         <div class="form-group">
                             <ul class="list-unstyled">
                                 @foreach($permissions as $permission)
+                                <label><h3>Permiso</h3> {{ $permission }}</label><br>
+                                <label><h3>Role</h3>{{ $role->id }}</label><br>
+                                <label><h3>Permiso Role</h3> {{ $permission->roles }}</label><br>
+                                
+                                <label><h3>Todo</h3>{{ $permission->roles->contains($role->id) }}</label><br>
                                 <!-- if para marcar checkbox seleccionado-->
                                 @if($permission->roles->contains($role->id))
+                                
                                 <li>
                                     <label class="form-check-label">
                                         <input class="form-check-input" type="checkbox" name="permissions[]" value="{{$permission->id}}" checked>{{ $permission->name }}

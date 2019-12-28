@@ -15,7 +15,6 @@
                         <thead>
                             <tr>
                                 <th>Nombre</th>
-                                <th>Lider</th>
                                 <th colspan="3">Acciones</th>
                             </tr>
                         </thead>

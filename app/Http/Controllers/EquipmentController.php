@@ -95,4 +95,17 @@ class EquipmentController extends Controller
 
         return back()->with('info', 'Eliminado Correctamente');
     }
+
+    public function getEquipment(Request $request)
+    {
+        
+        if ($request->ajax()){
+           $equipos = Equipment::where('departaments_id', $request->departamento_id)->get();
+           
+           foreach($equipos as $equipo){
+               $equiposArray[$equipo->id] = $equipo->nombre;
+           }
+        return response()->json($equiposArray);
+        }
+    }
 }

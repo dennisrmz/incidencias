@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Departament;
+use App\Equipment;
 use App\User;
 use Caffeinated\Shinobi\Models\Role;
 use Illuminate\Http\Request;
@@ -47,8 +49,11 @@ class UserController extends Controller
         ->where('role_user.user_id', $user->id)
         ->get()->toArray();
 
+        $departaments = Departament::get();
 
-        return view('users.edit', compact('user', 'roles', 'rolesuser'));
+        $equipments = Equipment::get();
+
+        return view('users.edit', compact('user', 'roles', 'rolesuser', 'departaments', 'equipments'));
     }
 
     /**
@@ -60,8 +65,6 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {  
-
-
         User::find($user->id)->update($request->all());
 
         $user->roles()->sync($request->get('roles'));

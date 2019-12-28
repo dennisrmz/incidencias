@@ -111,5 +111,31 @@ Route::middleware(['auth'])->group(function(){
 		->middleware('permission:equipments.destroy');
 
 	Route::get('equipments/{equipment}/edit', 'EquipmentController@edit')->name('equipments.edit')
-        ->middleware('permission:equipments.edit');
+		->middleware('permission:equipments.edit');
+		
+
+	Route::post('/equipmentsid', 'EquipmentController@getEquipment');
+
+	//Incident
+	Route::post('incidents/store', 'IncidentController@store')->name('incidents.store')
+		->middleware('permission:incidents.create');
+
+	Route::get('incidents', 'IncidentController@index')->name('incidents.index')
+		->middleware('permission:incidents.index');
+
+	Route::get('incidents/create', 'IncidentController@create')->name('incidents.create')
+		->middleware('permission:incidents.create');
+
+	Route::put('incidents/{incident}', 'IncidentController@update')->name('incidents.update')
+		->middleware('permission:incidents.edit');
+
+	Route::get('incidents/{incident}', 'IncidentController@show')->name('incidents.show')
+		->middleware('permission:incidents.show');
+
+	Route::delete('incidents/{incident}', 'IncidentController@destroy')->name('incidents.destroy')
+		->middleware('permission:incidents.destroy');
+
+	Route::get('incidents/{incident}/edit', 'IncidentController@edit')->name('incidents.edit')
+		->middleware('permission:incidents.edit');
+		
 });
