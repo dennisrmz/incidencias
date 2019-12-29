@@ -9,6 +9,7 @@
                   <br><br>
                 <div class="panel-body">
                   <p><strong>Nombre:</strong> {{ $equipment->nombre}}</p>
+                  <p><strong>Departamento:</strong> {{ $departament->nombre}}</p>
                 </div>
             </div>
         </div>

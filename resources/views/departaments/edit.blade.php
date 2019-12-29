@@ -16,6 +16,7 @@
                             <input class="form-control" id="nombre" type="text" name="nombre" value="{{$departament->nombre}}">
                             <br>
                         </div>
+                        
                         <div class="form-group">
                             <label>Lider</label>
                             <select id="lideres" name="id_lider" class="form-control" required>

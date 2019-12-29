@@ -18,6 +18,7 @@
                         <thead>
                             <tr>
                                 <th>Nombre</th>
+                                <th>Departamento</th>
                                 <th colspan="3">Acciones</th>
                             </tr>
                         </thead>
@@ -25,6 +26,7 @@
                             @foreach($equipments as $equipment)
                                 <tr>
                                     <td>{{ $equipment->nombre}}</td>
+                                    <td>{{ $equipment->departaments_id}}</td>
                                     <td width="10px">
                                         @can('equipments.show')
                                             <a href="{{ route('equipments.show' , $equipment->id) }}" class="btn btn-sm btn-secondary">

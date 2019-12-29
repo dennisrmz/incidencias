@@ -14,6 +14,8 @@
                         <label>Nombre</label>
                         <input type="text" name="nombre" value="{{$equipment->nombre}}">
                         <br>
+
+                        <!--FALTA EDITAR EL SELECT-->
                         <input type="submit" name="enviar" value="Actualizar">
                     </form>
                 </div>

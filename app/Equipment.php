@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Equipment extends Model
 {
-    protected $fillable = ['nombre'];
+    protected $fillable = ['nombre', 'departaments_id'];
     
     public function users(){
         return $this->hasMany('App/User');

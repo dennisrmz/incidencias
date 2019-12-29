@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Departament;
 use App\Equipment;
+use App\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -13,10 +15,12 @@ class EquipmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     /*SIRVE PARA MOSTRAR TODOS LOS DATOS*/
     public function index()
     {
         $equipments = Equipment::paginate(10);
-      
+
 
 
         return view('equipments.index', compact('equipments'));
@@ -27,9 +31,13 @@ class EquipmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    /*MUESTRA EL FORMULARIO EN LA VISTA */
     public function create()
     {
-        return view('equipments.create');
+        $departaments = Departament ::all();
+
+       
+        return view('equipments.create', compact('departaments'));
     }
 
     /**
@@ -38,12 +46,16 @@ class EquipmentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+     /*ES UN METODO QUE SE ENCARGA DE GUARDAR LO QUE SE LE MANDE EN EL CREATE */
     public function store(Request $request)
     {
         $equipment = new Equipment;
 
         $equipment->nombre = $request->nombre;
+        $equipment->departaments_id = $request->departaments_id;
         $equipment->save();
+        
         return redirect()->route('equipments.edit', $equipment->id)->with('info', 'Equipo guardado con éxito');
     }
 
@@ -53,8 +65,11 @@ class EquipmentController extends Controller
      * @param  \App\Equipment  $equipment
      * @return \Illuminate\Http\Response
      */
+
+     /*vISTA QUE MUESTRA TODOS LOS DETALLES DEL REGISTEO GUARDADO */
     public function show(Equipment $equipment)
     {
+        
         return view('equipments.show')->with('equipment', $equipment);
     }
 
@@ -64,6 +79,7 @@ class EquipmentController extends Controller
      * @param  \App\Equipment  $equipment
      * @return \Illuminate\Http\Response
      */
+    /*MUESTRA LA VISTA PARA EDITAR */
     public function edit(Equipment $equipment)
     {
         return view('equipments.edit', compact('equipment'));
@@ -76,10 +92,11 @@ class EquipmentController extends Controller
      * @param  \App\Equipment  $equipment
      * @return \Illuminate\Http\Response
      */
+
+     /*ES EL METODO PARA GUARDAR DEL EDIT */
     public function update(Request $request, Equipment $equipment)
     {
         Equipment::find($equipment->id)->update($request->all());
-
         return redirect()->route('equipments.edit', $equipment->id)->with('info', 'Equipo actualizado con éxito');
     }
 
@@ -89,6 +106,8 @@ class EquipmentController extends Controller
      * @param  \App\Equipment  $equipment
      * @return \Illuminate\Http\Response
      */
+
+     /*ELIMINAR */
     public function destroy(Equipment $equipment)
     {
         $equipment->delete();

@@ -28,6 +28,8 @@
                             <label><input  type="radio" name="special" value="all-access"> Acceso Total</label>
                             <label><input  type="radio" name="special" value="no-access"> Ningun Acceso</label>
                         </div>
+
+                        
                         <hr>
                         <h3>Lista de Permisos</h3>
                         <div class="form-group">
