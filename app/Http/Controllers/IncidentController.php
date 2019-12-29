@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Incident;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -16,7 +17,9 @@ class IncidentController extends Controller
      */
     public function index()
     {
-        //
+        
+
+        return view('incidents.index');
     }
 
     /**
@@ -118,5 +121,19 @@ class IncidentController extends Controller
     public function destroy(Incident $incident)
     {
         //
+    }
+
+    public function obteniendoIncidencias(User $user)
+    {
+
+        $incidencias = DB::table('incidents')
+        ->join('user_incident', 'incidents.id', 'user_incident.incident_id')
+        ->join('users', 'user_incident.user_id', 'users.id')
+        ->where('users.id', $user->id)
+        ->where('incidents.estado_aprobacion', 1)
+        ->get()->toArray();
+
+        
+        return view('incidents.incidencias');
     }
 }

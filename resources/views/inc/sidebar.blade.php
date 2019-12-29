@@ -6,11 +6,11 @@
           <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Incidencias</a>
           <ul class="collapse list-unstyled" id="homeSubmenu">
             <li>
-              <a class="nav-link" href="{{ route('incidents.index')}}">Incidencias Asignadas</a>
+              <a class="nav-link" href="{{ route('incidents.incidencias' , Auth::user()->id) }}">Incidencias Asignadas</a>
             </li>
             @can('incidents.create')
             <li>
-              <a class="nav-link" href="{{ route('incidents.create')}}">Asignar Incidencias</a>
+              <a class="nav-link" href="{{ route('incidents.create') }}">Asignar Incidencias</a>
             </li>
             @endcan
             <li>

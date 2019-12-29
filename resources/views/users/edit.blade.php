@@ -48,11 +48,11 @@
                                 @endif
 
                                 @foreach ($departaments as $departament)
-                                @if($user->departaments_id == $departament->id)
-                                <option value="{{ $departament->id }}" selected="true">{{ $departament->nombre }}</option>
-                                @else
-                                <option value="{{ $departament->id }}">{{ $departament->nombre }}</option>
-                                @endif
+                                    @if($user->departaments_id == $departament->id)
+                                        <option value="{{ $departament->id }}" selected="true">{{ $departament->nombre }}</option>
+                                    @else
+                                        <option value="{{ $departament->id }}">{{ $departament->nombre }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
