@@ -13,6 +13,6 @@ class Incident extends Model
     }
 
     public function users(){
-        return $this->belongsToMany('App\User', 'user_incident')->withPivot('user_id');
+        return $this->belongsToMany('App\User', 'user_incident')->withPivot('fecha_finalizacion');
     }
 }

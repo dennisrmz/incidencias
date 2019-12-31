@@ -38,6 +38,6 @@ class User extends Authenticatable
     }
 
     public function incidents(){
-        return $this->belongsToMany(Incident::class);
+        return $this->belongsToMany('App\Incident', 'user_incident')->withPivot('fecha_finalizacion');
     }
 }

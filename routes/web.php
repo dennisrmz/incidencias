@@ -139,5 +139,7 @@ Route::middleware(['auth'])->group(function(){
 		->middleware('permission:incidents.edit');
 
 	Route::get('incidentsget/{user}', 'IncidentController@obteniendoIncidencias')->name('incidents.incidencias');
+
+	Route::get('updateincidents/{incident}/{user}', 'IncidentController@aceptarIncidencia')->name('incidents.aceptar');
 		
 });

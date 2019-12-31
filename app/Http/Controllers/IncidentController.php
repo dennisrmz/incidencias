@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Incident;
+use App\State;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use DateTime;
 
 class IncidentController extends Controller
 {
@@ -70,9 +72,21 @@ class IncidentController extends Controller
         $incidencia->estado_aprobacion = 1;
         $incidencia->fecha_asignacion = Carbon::now();
         $incidencia->save(); 
+        $fechaSinFormato = $request->fecha_finalizacion;
+        $fechaDB = DateTime::createFromFormat("d/m/Y", $fechaSinFormato);
+        
 
+        foreach ($request->user_id as $iteracion => $v) {
+            $datos = array(
+                $request->user_id[$iteracion] => [
+                    
+                    'fecha_finalizacion' => $fecha_finalizacion[$iteracion] = (DateTime::createFromFormat("d/m/Y", $request->fecha_finalizacion)),
+                ]
+            );
+            $incidencia->users()->attach($datos);
+        }
+        
        
-        $incidencia->users()->sync($request->get('user_id'));
 
         
         return redirect()->route('incidents.edit', $incidencia->id)->with('info', 'Incidencia Guardada con Exito');
@@ -129,11 +143,22 @@ class IncidentController extends Controller
         $incidencias = DB::table('incidents')
         ->join('user_incident', 'incidents.id', 'user_incident.incident_id')
         ->join('users', 'user_incident.user_id', 'users.id')
+        ->select('incidents.id','incidents.usuario_asigno', 'incidents.descripcion' , 'incidents.nombre', 'incidents.fecha_asignacion', 'user_incident.fecha_finalizacion', 'user_incident.state_id')
         ->where('users.id', $user->id)
         ->where('incidents.estado_aprobacion', 1)
-        ->get()->toArray();
+        ->where('user_incident.state_id', 1)
+        ->paginate(5);
 
-        
+        $usuarios = User::get();
+        $estados = State::get();
+
+        return view('incidents.incidencias', compact('incidencias', 'usuarios', 'estados'));
+    }
+
+    public function aceptarIncidencia(Request $request, Incident $incident, User $user){
+        dd($incident, $user);
+
         return view('incidents.incidencias');
+
     }
 }
