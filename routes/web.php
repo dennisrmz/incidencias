@@ -141,5 +141,9 @@ Route::middleware(['auth'])->group(function(){
 	Route::get('incidentsget/{user}', 'IncidentController@obteniendoIncidencias')->name('incidents.incidencias');
 
 	Route::get('updateincidents/{incident}/{user}', 'IncidentController@aceptarIncidencia')->name('incidents.aceptar');
+
+	Route::put('finalizarincidents/{user}', 'IncidentController@finalizarIncidencia')->name('incidents.finalizar');
+	
+	Route::put('rechazarincidents/{user}', 'IncidentController@rechazarIncidencia')->name('incidents.rechazar');
 		
 });

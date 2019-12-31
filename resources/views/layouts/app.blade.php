@@ -46,6 +46,17 @@
                 </div>
             </div>
             @endif
+            @if(session('danger'))
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-2">
+                        <div class="alert alert-danger">
+                            {{ session('danger') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
 
             @yield('content')
         </div>
