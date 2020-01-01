@@ -14,7 +14,10 @@
             </li>
             @endcan
             <li>
-              <a href="#">Home 3</a>
+              <a href="{{ route('incidents.rechazadas' , Auth::user()->id) }}">Incidencias Rechazadas</a>
+            </li>
+            <li>
+              <a href="{{ route('incidents.finalizadas' , Auth::user()->id) }}">Incidencias Finalizadas</a>
             </li>
           </ul>
         </li>

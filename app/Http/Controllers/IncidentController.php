@@ -238,7 +238,7 @@ class IncidentController extends Controller
 
     /************************************************************************************************* */
 
-    /****** Funcion para Cambiar Estado De Incidencia a Finalizada ***************************************************/
+    /****** Funcion para Cambiar Estado De Incidencia a Rechazada ***************************************************/
 
     public function rechazarIncidencia(Request $request, User $user)
     {
@@ -251,8 +251,37 @@ class IncidentController extends Controller
     }
 
 
-    public function mostrarIncidenciasRechazadas()
+    public function mostrarIncidenciasRechazadas(User $user)
     {
-        
+        $incidenciasRechazadas = DB::table('incidents')
+            ->join('user_incident', 'incidents.id', 'user_incident.incident_id')
+            ->join('users', 'user_incident.user_id', 'users.id')
+            ->select('incidents.id', 'incidents.usuario_asigno', 'incidents.descripcion', 'incidents.nombre', 'incidents.fecha_asignacion', 'user_incident.fecha_rechazo', 'user_incident.state_id', 'user_incident.descripcion_rechazo')
+            ->where('users.id', $user->id)
+            ->where('incidents.estado_aprobacion', 1)
+            ->where('user_incident.state_id', 4)
+            ->paginate(5);
+
+        $usuarios = User::get();
+        $estados = State::get();
+
+        return view('incidents.rechazadas')->with('incidenciasRechazadas', $incidenciasRechazadas)->with('usuarios', $usuarios)->with('estados', $estados);
+    }
+
+    public function mostrarIncidenciasFinalizadas(User $user)
+    {
+        $incidenciasFinalizadas = DB::table('incidents')
+            ->join('user_incident', 'incidents.id', 'user_incident.incident_id')
+            ->join('users', 'user_incident.user_id', 'users.id')
+            ->select('incidents.id', 'incidents.usuario_asigno', 'incidents.descripcion', 'incidents.nombre', 'incidents.fecha_asignacion', 'user_incident.fecha_finalizacion', 'user_incident.fecha_finalizacion_user', 'user_incident.fecha_aceptacion', 'user_incident.state_id', 'user_incident.observaciones')
+            ->where('users.id', $user->id)
+            ->where('incidents.estado_aprobacion', 1)
+            ->where('user_incident.state_id', 3)
+            ->paginate(5);
+
+        $usuarios = User::get();
+        $estados = State::get();
+
+        return view('incidents.finalizadas')->with('incidenciasFinalizadas', $incidenciasFinalizadas)->with('usuarios', $usuarios)->with('estados', $estados);
     }
 }

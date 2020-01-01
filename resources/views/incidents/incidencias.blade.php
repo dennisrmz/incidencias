@@ -18,7 +18,7 @@
                         @endforeach
                         <div class="card-body">
                             <h5 class="card-title">Nombre de Incidencia: {{ $incidencia->nombre }}</h5>
-                            <p class="card-text">Fecha de Asignacion: {{ $incidencia->descripcion }} </p>
+                            <p class="card-text">Descripcion: {{ $incidencia->descripcion }} </p>
                             <p class="card-text">Fecha de Asignacion: {{ date('d-m-Y', strtotime($incidencia->fecha_asignacion)) }} </p>
                             <p class="card-text">Fecha de Finalizacion: {{ date('d-m-Y', strtotime($incidencia->fecha_finalizacion)) }}</p>
                             @foreach($estados as $estado)
@@ -49,7 +49,7 @@
                         @endforeach
                         <div class="card-body">
                             <h5 class="card-title">Nombre de Incidencia: {{ $incidencia->nombre }}</h5>
-                            <p class="card-text">Fecha de Asignacion: {{ $incidencia->descripcion }} </p>
+                            <p class="card-text">Descripcion: {{ $incidencia->descripcion }} </p>
                             <p class="card-text">Fecha de Asignacion: {{ date('d-m-Y', strtotime($incidencia->fecha_asignacion)) }} </p>
                             <p class="card-text">Fecha de Finalizacion: {{ date('d-m-Y', strtotime($incidencia->fecha_finalizacion)) }}</p>
                             @foreach($estados as $estado)

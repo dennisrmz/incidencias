@@ -145,5 +145,9 @@ Route::middleware(['auth'])->group(function(){
 	Route::put('finalizarincidents/{user}', 'IncidentController@finalizarIncidencia')->name('incidents.finalizar');
 	
 	Route::put('rechazarincidents/{user}', 'IncidentController@rechazarIncidencia')->name('incidents.rechazar');
+
+	Route::get('getrechazadas/{user}', 'IncidentController@mostrarIncidenciasRechazadas')->name('incidents.rechazadas');
 		
+	Route::get('getfinalizadas/{user}', 'IncidentController@mostrarIncidenciasFinalizadas')->name('incidents.finalizadas');
+	
 });
