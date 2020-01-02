@@ -84,4 +84,16 @@ class UserController extends Controller
 
         return back()->with('info', 'Eliminado Correctamente');
     }
+
+    public function getUser(Request $request)
+    {
+        if ($request->ajax()){
+            $usuarios = User::where('equipments_id', $request->equipo_id)->get();
+            
+            foreach($usuarios as $usuario){
+                $usuariosArray[$usuario->id] = $usuario->name;
+            }
+         return response()->json($usuariosArray);
+         }
+    }
 }

@@ -149,5 +149,10 @@ Route::middleware(['auth'])->group(function(){
 	Route::get('getrechazadas/{user}', 'IncidentController@mostrarIncidenciasRechazadas')->name('incidents.rechazadas');
 		
 	Route::get('getfinalizadas/{user}', 'IncidentController@mostrarIncidenciasFinalizadas')->name('incidents.finalizadas');
+
+	Route::post('/usersid', 'UserController@getUser');
+
+	Route::post('incidents/storeLider', 'IncidentController@storeLider')->name('incidents.storeLider')
+		->middleware('permission:incidents.create');
 	
 });

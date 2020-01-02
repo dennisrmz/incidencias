@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Departament;
 use App\Incident;
 use App\State;
 use App\User;
@@ -43,7 +44,9 @@ class IncidentController extends Controller
             ->select('role_user.id', 'role_user.role_id', 'role_user.user_id')
             ->get()->toArray();
 
-        return view('incidents.create', compact('users', 'rolesusuarios'));
+        $departaments = Departament::get();
+
+        return view('incidents.create', compact('users', 'rolesusuarios', 'departaments'));
     }
 
     /**
@@ -283,5 +286,40 @@ class IncidentController extends Controller
         $estados = State::get();
 
         return view('incidents.finalizadas')->with('incidenciasFinalizadas', $incidenciasFinalizadas)->with('usuarios', $usuarios)->with('estados', $estados);
+    }
+
+    public function storeLider(Request $request)
+    {
+        dd($request);
+        // $incidencia = new Incident;
+
+        // $codigo0 = mt_rand(0, 9);
+        // $codigo1 = mt_rand(0, 9);
+        // $codigo2 = mt_rand(0, 9);
+        // $codigo3 = mt_rand(0, 9);
+        // $codigo4 = mt_rand(0, 9);
+        // $codigo5 = mt_rand(0, 9);
+        // $codigoInc = $codigo0 . "" . $codigo1 . "" . $codigo2 . "" . $codigo3 . "" . $codigo4 . "" . $codigo5;
+
+        // $incidencia->nombre = $request->nombre;
+        // $incidencia->descripcion = $request->descripcion;
+        // $incidencia->usuario_asigno = $request->usuario_asigno;
+        // $incidencia->codigo = $codigoInc;
+        // $incidencia->estado_aprobacion = 1;
+        // $incidencia->fecha_asignacion = Carbon::now();
+        // $incidencia->save();
+        // $fechaSinFormato = $request->fecha_finalizacion;
+        // $fechaDB = DateTime::createFromFormat("d/m/Y", $fechaSinFormato);
+
+
+        // foreach ($request->user_id as $iteracion => $v) {
+        //     $datos = array(
+        //         $request->user_id[$iteracion] => [
+        //             'fecha_finalizacion' => $fecha_finalizacion[$iteracion] = (DateTime::createFromFormat("d/m/Y", $request->fecha_finalizacion)),
+        //         ]
+        //     );
+        //     $incidencia->users()->attach($datos);
+        // }
+        // return redirect()->route('incidents.edit', $incidencia->id)->with('info', 'Incidencia Guardada con Exito');
     }
 }

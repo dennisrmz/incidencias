@@ -1,7 +1,9 @@
 <nav id="sidebar">
     <div class="p-4 pt-5">
       <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(/images/logo.jpg);"></a>
+     
       <ul class="list-unstyled components mb-5">
+        @can('incidents.index')
         <li class="active">
           <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Incidencias</a>
           <ul class="collapse list-unstyled" id="homeSubmenu">
@@ -21,6 +23,7 @@
             </li>
           </ul>
         </li>
+        @endcan
         @can('roles.index')
         <li class="nav-item">
           <a class="nav-link" href="{{ route('roles.index')}}">Roles</a>
