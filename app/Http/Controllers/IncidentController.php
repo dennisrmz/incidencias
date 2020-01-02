@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Departament;
+use App\Equipment;
 use App\Incident;
 use App\State;
 use App\User;
@@ -72,7 +73,7 @@ class IncidentController extends Controller
         $incidencia->usuario_asigno = $request->usuario_asigno;
         $incidencia->codigo = $codigoInc;
         $incidencia->estado_aprobacion = 1;
-        $incidencia->fecha_asignacion = Carbon::now();
+        $incidencia->fecha_asignacion = Carbon::now('America/El_Salvador');
         $incidencia->save();
         $fechaSinFormato = $request->fecha_finalizacion;
         $fechaDB = DateTime::createFromFormat("d/m/Y", $fechaSinFormato);
@@ -177,7 +178,7 @@ class IncidentController extends Controller
             DB::table('user_incident')
                 ->where('user_incident.user_id', $user->id)
                 ->where('user_incident.incident_id', $incident->id)
-                ->update(['user_incident.state_id' => 2, 'user_incident.fecha_aceptacion' =>  Carbon::now()]);
+                ->update(['user_incident.state_id' => 2, 'user_incident.fecha_aceptacion' =>  Carbon::now('America/El_Salvador')]);
 
             $incidencias = DB::table('incidents')
                 ->join('user_incident', 'incidents.id', 'user_incident.incident_id')
@@ -234,7 +235,7 @@ class IncidentController extends Controller
         DB::table('user_incident')
             ->where('user_incident.user_id', $user->id)
             ->where('user_incident.incident_id', $request->incident_id)
-            ->update(['observaciones' => $request->observaciones, 'user_incident.state_id' => 3, 'user_incident.fecha_finalizacion_user' =>  Carbon::now()]);
+            ->update(['observaciones' => $request->observaciones, 'user_incident.state_id' => 3, 'user_incident.fecha_finalizacion_user' =>  Carbon::now('America/El_Salvador')]);
 
         return redirect()->route('incidents.incidencias', ['user' => $user->id])->with('info', 'Incidencia finalizada, puede aceptar una nueva');
     }
@@ -248,7 +249,7 @@ class IncidentController extends Controller
         DB::table('user_incident')
             ->where('user_incident.user_id', $user->id)
             ->where('user_incident.incident_id', $request->incident_id)
-            ->update(['descripcion_rechazo' => $request->descripcion_rechazo, 'user_incident.state_id' => 4, 'user_incident.fecha_rechazo' =>  Carbon::now()]);
+            ->update(['descripcion_rechazo' => $request->descripcion_rechazo, 'user_incident.state_id' => 4, 'user_incident.fecha_rechazo' =>  Carbon::now('America/El_Salvador')]);
 
         return redirect()->route('incidents.incidencias', ['user' => $user->id])->with('danger', 'Incidencia Rechazada');
     }
@@ -290,36 +291,63 @@ class IncidentController extends Controller
 
     public function storeLider(Request $request)
     {
-        dd($request);
-        // $incidencia = new Incident;
+        if ($request->form_seleccion == 2) {
+            $incidencia = new Incident;
 
-        // $codigo0 = mt_rand(0, 9);
-        // $codigo1 = mt_rand(0, 9);
-        // $codigo2 = mt_rand(0, 9);
-        // $codigo3 = mt_rand(0, 9);
-        // $codigo4 = mt_rand(0, 9);
-        // $codigo5 = mt_rand(0, 9);
-        // $codigoInc = $codigo0 . "" . $codigo1 . "" . $codigo2 . "" . $codigo3 . "" . $codigo4 . "" . $codigo5;
+            $codigo0 = mt_rand(0, 9);
+            $codigo1 = mt_rand(0, 9);
+            $codigo2 = mt_rand(0, 9);
+            $codigo3 = mt_rand(0, 9);
+            $codigo4 = mt_rand(0, 9);
+            $codigo5 = mt_rand(0, 9);
+            $codigoInc = $codigo0 . "" . $codigo1 . "" . $codigo2 . "" . $codigo3 . "" . $codigo4 . "" . $codigo5;
 
-        // $incidencia->nombre = $request->nombre;
-        // $incidencia->descripcion = $request->descripcion;
-        // $incidencia->usuario_asigno = $request->usuario_asigno;
-        // $incidencia->codigo = $codigoInc;
-        // $incidencia->estado_aprobacion = 1;
-        // $incidencia->fecha_asignacion = Carbon::now();
-        // $incidencia->save();
-        // $fechaSinFormato = $request->fecha_finalizacion;
-        // $fechaDB = DateTime::createFromFormat("d/m/Y", $fechaSinFormato);
+            $incidencia->nombre = $request->nombreIncidencia;
+            $incidencia->descripcion = $request->descripcionIncidencia;
+            $incidencia->usuario_asigno = $request->usuario_asignoIncidencia;
+            $incidencia->codigo = $codigoInc;
+            $usuario = User::where('id', $request->usuario_asignoIncidencia)->get();
+            $equipo = Equipment::where('id', $request->equipments_idIncidencia)->get();
+            if ($usuario[0]->departaments_id == $equipo[0]->departaments_id) {
+                $incidencia->estado_aprobacion = 1;
+            } else {
+                $incidencia->estado_aprobacion = 0;
+            }
+            $incidencia->fecha_asignacion = Carbon::now('America/El_Salvador');
+            $incidencia->save();
 
+            $usuarios = User::where('equipments_id', $request->equipments_idIncidencia)->get();
 
-        // foreach ($request->user_id as $iteracion => $v) {
-        //     $datos = array(
-        //         $request->user_id[$iteracion] => [
-        //             'fecha_finalizacion' => $fecha_finalizacion[$iteracion] = (DateTime::createFromFormat("d/m/Y", $request->fecha_finalizacion)),
-        //         ]
-        //     );
-        //     $incidencia->users()->attach($datos);
-        // }
-        // return redirect()->route('incidents.edit', $incidencia->id)->with('info', 'Incidencia Guardada con Exito');
+            foreach ($usuarios as $usuario) {
+                DB::table('user_incident')->insert(['user_id' => $usuario->id, 'incident_id' => $incidencia->id, 'state_id' => 1, 'fecha_finalizacion' => (DateTime::createFromFormat("d/m/Y", $request->fecha_finalizacionIncidencia))]);
+            }
+            return redirect()->route('home')->with('info', 'Incidencia Guardada con Exito');
+        } elseif ($request->form_seleccion == 1) {
+            $incidencia = new Incident;
+
+            $codigo0 = mt_rand(0, 9);
+            $codigo1 = mt_rand(0, 9);
+            $codigo2 = mt_rand(0, 9);
+            $codigo3 = mt_rand(0, 9);
+            $codigo4 = mt_rand(0, 9);
+            $codigo5 = mt_rand(0, 9);
+            $codigoInc = $codigo0 . "" . $codigo1 . "" . $codigo2 . "" . $codigo3 . "" . $codigo4 . "" . $codigo5;
+            $incidencia->nombre = $request->nombreIncidencia;
+            $incidencia->descripcion = $request->descripcionIncidencia;
+            $incidencia->usuario_asigno = $request->usuario_asignoIncidencia;
+            $incidencia->codigo = $codigoInc;
+            $usuarioAsigno = User::where('id', $request->usuario_asignoIncidencia)->get();
+            $usuarioAsignado = User::where('id', $request->user_idIncidencia)->get();
+            if ($usuarioAsigno[0]->departaments_id == $usuarioAsignado[0]->departaments_id) {
+                $incidencia->estado_aprobacion = 1;
+            } else {
+                $incidencia->estado_aprobacion = 0;
+            }
+            $incidencia->fecha_asignacion = Carbon::now('America/El_Salvador');
+            $incidencia->save();
+
+            DB::table('user_incident')->insert(['user_id' => $request->user_idIncidencia, 'incident_id' => $incidencia->id, 'state_id' => 1, 'fecha_finalizacion' => (DateTime::createFromFormat("d/m/Y", $request->fecha_finalizacionIncidencia))]);
+            return redirect()->route('home')->with('info', 'Incidencia Guardada con Exito');
+        }
     }
 }

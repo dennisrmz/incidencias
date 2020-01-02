@@ -96,4 +96,17 @@ class UserController extends Controller
          return response()->json($usuariosArray);
          }
     }
+
+    public function getUserDepartament(Request $request)
+    {
+        if ($request->ajax()){
+            $usuarios = User::where('departaments_id', $request->seleccion)->get();
+            
+            foreach($usuarios as $usuario){
+                $usuariosArray[$usuario->id] = [$usuario->name, $usuario->es_lider];
+            }
+         return response()->json($usuariosArray);
+         }
+    }
+    
 }

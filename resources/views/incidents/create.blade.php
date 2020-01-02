@@ -16,7 +16,7 @@
                     @foreach($rolesusuarios as $rolusuario )
                     @if($rolusuario->user_id == (Auth::user()->id))
                     @if($rolusuario->role_id == 1)
-                    <!--*********************** Formulario para lider************************************** -->
+                    <!--*********************** Formulario para Encargado************************************** -->
                     <form method="POST" action="store" name="formulario">
                         {{ csrf_field() }}
                         <div class="form-group">
@@ -64,7 +64,7 @@
 
                         <div class="form-group">
                             <label>Asignar Incidencia a</label>
-                            <select name="form-seleccion" id="form-seleccion" class="form-control" required>
+                            <select name="form_seleccion" id="form_seleccion" class="form-control" required>
                                 <option value="" disabled selected="true">Seleccione una de las opciones</option>
                                 <option value="1">Personal Individual</option>
                                 <option value="2">Equipo</option>
@@ -91,26 +91,26 @@
 
                         <div class="form-group" id="especificaciones-formulario"></div>
 
-                        <br>        
+                        <br>
 
                         <div class="form-group">
                             <label>Nombre</label>
-                            <input type="text" id="nombre" name="nombreLider" placeholder="Ingrese el nombre de la incidencia" class="form-control" required>
+                            <input type="text" id="nombre" name="nombreIncidencia" placeholder="Ingrese el nombre de la incidencia" class="form-control" required>
                         </div>
 
                         <div class="form-group">
                             <label>Descripcion</label>
-                            <input type="text" id="descripcion" name="descripcionLider" placeholder="Ingrese la descripcion de la Incidencia" class="form-control" required>
+                            <input type="text" id="descripcion" name="descripcionIncidencia" placeholder="Ingrese la descripcion de la Incidencia" class="form-control" required>
                         </div>
 
                         <div style="display: none">
-                            <input type="text" id="user_actual" name="usuario_asignoLider" value="{{ Auth::user()->id }}" required>
+                            <input type="text" id="user_actual" name="usuario_asignoIncidencia" value="{{ Auth::user()->id }}" required>
                         </div>
 
 
                         <div class="form-group">
                             <Label>Fecha de Finalizacion</Label>
-                            <input name="fecha_finalizacionLider" placeholder="dd/MM/aaaa" id="datepicker" class="datepicker" required>
+                            <input name="fecha_finalizacionIncidencia" placeholder="dd/MM/aaaa" id="datepicker" class="datepicker" required>
                         </div>
 
                         <div class="form-group">
@@ -170,7 +170,7 @@
 <script>
     // ************************ Funcion para mostrar formulario de equipo o persona individual ***************************//
     $(function() {
-        $('#form-seleccion').on('change', function() {
+        $('#form_seleccion').on('change', function() {
             var formulario = $(this).val()
             var codigo
             console.log(formulario);
@@ -180,7 +180,7 @@
             }
             if (formulario == "2") {
                 codigo = `<label class="datos-cliente">Equipo</label> 
-            <select id="equipos" name="equipments_idlider" class="form-control">
+            <select id="equipos" name="equipments_idIncidencia" class="form-control">
             </select>
             <br>
             
@@ -197,7 +197,11 @@
             
             `
             } else if (formulario == "1") {
-                codigo = `<h5>Estoy en 2</h5>`
+                codigo = `<label class="datos-cliente">Personal de Departamento</label> 
+                        <select id="usuarios" name="user_idIncidencia" class="form-control">
+                        </select>
+                        <br>
+                        `
             }
             $('#especificaciones-formulario').append(codigo)
         })
@@ -205,8 +209,9 @@
 
     // *************** Funcion para mostrar los equipo del departamento que esta cargado por defecto al elegir equipos ***************************//
     $(document).ready(function() {
+
         var seleccion = $('#departamentos').val();
-        $('#form-seleccion').on('change', function() {
+        $('#form_seleccion').on('change', function() {
             var tipoSeleccion = $(this).val();
             if (tipoSeleccion == '2') {
                 if ($.trim(seleccion) != '') {
@@ -234,6 +239,35 @@
 
                     });
                 }
+            } else if (tipoSeleccion == '1') {
+                if ($.trim(seleccion) != '') {
+                    console.log('entre' + seleccion);
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        type: 'POST',
+                        url: '/usersdepartamentid',
+                        data: {
+                            "seleccion": seleccion
+                        },
+                        success: function(users) {
+
+                            console.log(users);
+                            $('#usuarios').empty();
+                            $('#usuarios').append("<option value=''>Seleccione un usuario</option>");
+                            $.each(users, function(index, value) {
+                                if (value[1] == 0) {
+                                    $('#usuarios').append(`<option value="${index}"> ${value[0]}</option>`)
+                                }
+
+                            })
+                        }
+
+                    });
+                }
             }
 
         })
@@ -241,42 +275,74 @@
 
         // *************** Funcion para mostrar equipos del departamento seleccionado al cambiar valor del select ***************************//
         $('#departamentos').on('change', function() {
-            var departamento_id = $(this).val();
+            var form_seleccionado = $('#form_seleccion').val();
+            console.log(form_seleccionado);
+            if (form_seleccionado == '2') {
+                var departamento_id = $(this).val();
 
-            if ($.trim(departamento_id) != '') {
-                console.log('entre' + departamento_id);
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    type: 'POST',
-                    url: 'http://localhost:8000/equipmentsid',
-                    data: {
-                        "departamento_id": departamento_id
-                    },
-                    success: function(equipments) {
+                if ($.trim(departamento_id) != '') {
+                    console.log('entre' + departamento_id);
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        type: 'POST',
+                        url: 'http://localhost:8000/equipmentsid',
+                        data: {
+                            "departamento_id": departamento_id
+                        },
+                        success: function(equipments) {
 
-                        console.log('en peticion');
-                        $('#equipos').empty();
-                        $('#equipos').append("<option value=''>Seleccione un equipo</option>");
-                        $.each(equipments, function(index, value) {
-                            $('#equipos').append("<option value='" + index + "'>" + value + "</option>")
-                        })
-                    }
+                            console.log('en peticion');
+                            $('#equipos').empty();
+                            $('#equipos').append("<option value=''>Seleccione un equipo</option>");
+                            $.each(equipments, function(index, value) {
+                                $('#equipos').append("<option value='" + index + "'>" + value + "</option>")
+                            })
+                        }
 
-                });
+                    });
+                }
+            }else if (form_seleccionado == '1') {
+                var seleccion = $(this).val();
+                if ($.trim(seleccion) != '') {
+                    console.log('entre' + seleccion);
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        type: 'POST',
+                        url: '/usersdepartamentid',
+                        data: {
+                            "seleccion": seleccion
+                        },
+                        success: function(users) {
+
+                            console.log(users);
+                            $('#usuarios').empty();
+                            $('#usuarios').append("<option value=''>Seleccione un usuario</option>");
+                            $.each(users, function(index, value) {
+                                if (value[1] == 0) {
+                                    $('#usuarios').append(`<option value="${index}"> ${value[0]}</option>`)
+                                }
+
+                            })
+                        }
+
+                    });
+                }
             }
+
         })
 
+        // *************** funcion para cargar usuarios de equipo  ***************************//
 
-        // ***************  ***************************//
-
-        console.log('hola');
-        $('div#especificaciones-formulario').on('change', "select#equipos" , function() {
+        $('div#especificaciones-formulario').on('change', "select#equipos", function() {
             var equipo_id = $(this).val();
-            console.log(equipo_id + 'para pedir usuarios');
             if ($.trim(equipo_id) != '') {
                 console.log('entre' + equipo_id);
                 $.ajaxSetup({
