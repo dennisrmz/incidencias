@@ -24,7 +24,6 @@
             <!-- Authentication Links -->
             <ul class="navbar-nav ml-auto">
                 @guest
-                <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Registrar Usuario</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Iniciar Sesion</a></li>
                 @else
                 @can('users.create')

@@ -178,7 +178,7 @@ class IncidentController extends Controller
             DB::table('user_incident')
                 ->where('user_incident.user_id', $user->id)
                 ->where('user_incident.incident_id', $incident->id)
-                ->update(['user_incident.state_id' => 2, 'user_incident.fecha_aceptacion' =>  Carbon::now('America/El_Salvador')]);
+                ->update(['state_id' => 2, 'fecha_aceptacion' =>  Carbon::now('America/El_Salvador')]);
 
             $incidencias = DB::table('incidents')
                 ->join('user_incident', 'incidents.id', 'user_incident.incident_id')
@@ -235,7 +235,7 @@ class IncidentController extends Controller
         DB::table('user_incident')
             ->where('user_incident.user_id', $user->id)
             ->where('user_incident.incident_id', $request->incident_id)
-            ->update(['observaciones' => $request->observaciones, 'user_incident.state_id' => 3, 'user_incident.fecha_finalizacion_user' =>  Carbon::now('America/El_Salvador')]);
+            ->update(['observaciones' => $request->observaciones, 'state_id' => 3, 'fecha_finalizacion_user' =>  Carbon::now('America/El_Salvador')]);
 
         return redirect()->route('incidents.incidencias', ['user' => $user->id])->with('info', 'Incidencia finalizada, puede aceptar una nueva');
     }
@@ -249,7 +249,7 @@ class IncidentController extends Controller
         DB::table('user_incident')
             ->where('user_incident.user_id', $user->id)
             ->where('user_incident.incident_id', $request->incident_id)
-            ->update(['descripcion_rechazo' => $request->descripcion_rechazo, 'user_incident.state_id' => 4, 'user_incident.fecha_rechazo' =>  Carbon::now('America/El_Salvador')]);
+            ->update(['descripcion_rechazo' => $request->descripcion_rechazo, 'state_id' => 4, 'fecha_rechazo' =>  Carbon::now('America/El_Salvador')]);
 
         return redirect()->route('incidents.incidencias', ['user' => $user->id])->with('danger', 'Incidencia Rechazada');
     }
@@ -349,5 +349,52 @@ class IncidentController extends Controller
             DB::table('user_incident')->insert(['user_id' => $request->user_idIncidencia, 'incident_id' => $incidencia->id, 'state_id' => 1, 'fecha_finalizacion' => (DateTime::createFromFormat("d/m/Y", $request->fecha_finalizacionIncidencia))]);
             return redirect()->route('home')->with('info', 'Incidencia Guardada con Exito');
         }
+    }
+
+    public function mostrarIncidenciasConFaltaAprobacion(User $user)
+    {
+
+        $incidenciasNoAprobadas = DB::table('incidents')
+            ->join('user_incident', 'incidents.id', 'user_incident.incident_id')
+            ->join('users', 'user_incident.user_id', 'users.id')
+            ->select('incidents.id', 'incidents.usuario_asigno', 'incidents.descripcion', 'incidents.nombre', 'incidents.fecha_asignacion', 'user_incident.fecha_finalizacion', 'user_incident.state_id')
+            ->where('users.departaments_id', $user->departaments_id)
+            ->where('incidents.estado_aprobacion', false)
+            ->where('user_incident.state_id', 1)
+            ->distinct('incidents.id')
+            ->paginate(5);
+
+        $usuariosIncidencia = DB::table('incidents')
+            ->join('user_incident', 'incidents.id', 'user_incident.incident_id')
+            ->join('users', 'user_incident.user_id', 'users.id')
+            ->select('incidents.id', 'user_incident.user_id', 'users.name')
+            ->where('users.departaments_id', $user->departaments_id)
+            ->where('incidents.estado_aprobacion', false)
+            ->where('user_incident.state_id', 1)
+            ->get()->toArray();
+
+        $usuarios = User::get();
+        $estados = State::get();
+        $departamentos = Departament::get();
+
+        return view('incidents.sinaprobacion', compact('incidenciasNoAprobadas', 'usuarios', 'estados', 'departamentos', 'usuariosIncidencia'));
+    }
+
+
+    public function aprobarIncidencia(Incident $incident)
+    {
+        DB::table('incidents')
+            ->where('id', $incident->id)
+            ->update(['estado_aprobacion' => true]);
+        return back();
+    }
+
+    public function rechazarAprobacionIncidencia(Request $request, Incident $incident)
+    {
+
+        DB::table('user_incident')
+            ->where('incident_id', $incident->id)
+            ->update(['state_id' => 4, 'descripcion_rechazo' => $request->descripcion_rechazo, 'fecha_rechazo' => Carbon::now('America/El_Salvador')]);
+        return back();
     }
 }

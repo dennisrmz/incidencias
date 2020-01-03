@@ -7,20 +7,25 @@
         <li class="active">
           <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Incidencias</a>
           <ul class="collapse list-unstyled" id="homeSubmenu">
-            <li>
-              <a class="nav-link" href="{{ route('incidents.incidencias' , Auth::user()->id) }}">Incidencias Asignadas</a>
-            </li>
-            @can('incidents.create')
+          @can('incidents.create')
             <li>
               <a class="nav-link" href="{{ route('incidents.create') }}">Asignar Incidencias</a>
             </li>
             @endcan
+            <li>
+              <a class="nav-link" href="{{ route('incidents.incidencias' , Auth::user()->id) }}">Incidencias Asignadas</a>
+            </li>
             <li>
               <a href="{{ route('incidents.rechazadas' , Auth::user()->id) }}">Incidencias Rechazadas</a>
             </li>
             <li>
               <a href="{{ route('incidents.finalizadas' , Auth::user()->id) }}">Incidencias Finalizadas</a>
             </li>
+            @can('incidents.create')
+            <li>
+              <a class="nav-link" href="{{ route('incidents.sinaprobacion' , Auth::user()->id) }}">Aprobar Incidencias</a>
+            </li>
+            @endcan
           </ul>
         </li>
         @endcan

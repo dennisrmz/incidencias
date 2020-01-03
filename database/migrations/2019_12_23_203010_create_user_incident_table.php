@@ -19,7 +19,7 @@ class CreateUserIncidentTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('incident_id')->unsigned();
             $table->foreign('incident_id')->references('id')->on('incidents')->onDelete('cascade');
-            $table->integer('state_id')->unsigned();
+            $table->integer('state_id')->unsigned()->default(1);
             $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');
             $table->timestamps();
         });

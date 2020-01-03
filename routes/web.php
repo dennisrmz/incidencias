@@ -156,5 +156,11 @@ Route::middleware(['auth'])->group(function(){
 
 	Route::post('incidents/storeLider', 'IncidentController@storeLider')->name('incidents.storeLider')
 		->middleware('permission:incidents.create');
+
+	Route::get('getFaltaDeAprobacion/{user}', 'IncidentController@mostrarIncidenciasConFaltaAprobacion')->name('incidents.sinaprobacion')
+		->middleware('permission:incidents.create');
 	
+	Route::get('aprobarincidents/{incident}', 'IncidentController@aprobarIncidencia')->name('incidents.aprobar');
+
+	Route::put('rechazarAprobacionincidents/{incident}', 'IncidentController@rechazarAprobacionIncidencia')->name('incidents.rechazarAprobacion');
 });
