@@ -15,7 +15,16 @@
                             <input type="text" name="nombre" placeholder="Ingrese el nombre del equipo" class="form-control">
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-success guardar">Guardar</button>
+                            <label>departamentos</label>
+                            <select id="departamentos" name="departaments_id" class="form-control">
+                                <option value="" disabled selected="true">Seleccione el departamento al cual pertenecera el equipo</option>
+                                @foreach ($departaments as $departament)
+                                    <option value="{{ $departament->id }}">{{ $departament->nombre }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group text-right">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
                         </div>
                     </form>
                 </div>

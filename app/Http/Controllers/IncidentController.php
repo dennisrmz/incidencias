@@ -266,10 +266,20 @@ class IncidentController extends Controller
             ->where('user_incident.state_id', 4)
             ->paginate(5);
 
+        $incidenciasNoAprobadas = DB::table('incidents')
+            ->join('user_incident', 'incidents.id', 'user_incident.incident_id')
+            ->join('users', 'user_incident.user_id', 'users.id')
+            ->select('incidents.id', 'incidents.usuario_asigno', 'incidents.descripcion', 'incidents.nombre', 'incidents.fecha_asignacion', 'user_incident.fecha_finalizacion', 'user_incident.state_id', 'user_incident.descripcion_rechazo', 'user_incident.fecha_rechazo')
+            ->where('users.departaments_id', $user->departaments_id)
+            ->where('incidents.estado_aprobacion', false)
+            ->where('user_incident.state_id', 4)
+            ->distinct('incidents.id')
+            ->paginate(5);
+
         $usuarios = User::get();
         $estados = State::get();
 
-        return view('incidents.rechazadas')->with('incidenciasRechazadas', $incidenciasRechazadas)->with('usuarios', $usuarios)->with('estados', $estados);
+        return view('incidents.rechazadas')->with('incidenciasNoAprobadas', $incidenciasNoAprobadas)->with('incidenciasRechazadas', $incidenciasRechazadas)->with('usuarios', $usuarios)->with('estados', $estados);
     }
 
     public function mostrarIncidenciasFinalizadas(User $user)
@@ -397,4 +407,25 @@ class IncidentController extends Controller
             ->update(['state_id' => 4, 'descripcion_rechazo' => $request->descripcion_rechazo, 'fecha_rechazo' => Carbon::now('America/El_Salvador')]);
         return back();
     }
+
+    public function noaprobadasIncidencia(User $user){
+
+        $incidenciasNoAprobadas = DB::table('incidents')
+            ->join('user_incident', 'incidents.id', 'user_incident.incident_id')
+            ->join('users', 'user_incident.user_id', 'users.id')
+            ->select('incidents.id','user_incident.incident_id', 'incidents.descripcion', 'incidents.nombre', 'incidents.fecha_asignacion', 'user_incident.fecha_finalizacion', 'user_incident.state_id', 'user_incident.descripcion_rechazo', 'user_incident.fecha_rechazo')
+            ->where('incidents.usuario_asigno', $user->id)
+            ->where('incidents.estado_aprobacion', false)
+            ->where('user_incident.state_id', 4)
+            ->distinct()
+            ->paginate(5);
+
+            $usuarios = User::get();
+            $estados = State::get();
+            $departamentos = Departament::get();
+    
+            return view('incidents.noaprobadas', compact('incidenciasNoAprobadas', 'usuarios', 'estados', 'departamentos', 'usuariosIncidencia'));
+        
+    }
+
 }

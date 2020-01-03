@@ -72,7 +72,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('incidents.rechazarAprobacion', $incidencia->id) }}" method="post">
+                <form action="{{ route('incidents.rechazaraprobacion', $incidencia->id) }}" method="post">
                     {{ csrf_field() }}
                     {{ method_field('PUT') }}
 

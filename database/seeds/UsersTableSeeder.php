@@ -34,5 +34,23 @@ class UsersTableSeeder extends Seeder
             'role_id'  => '1',
             'user_id'   => '1',
            ]);
+
+           DB::table('states')->insert([
+            'id'  => '1',
+            'nombre'   => 'En Espera',
+           ]);
+        
+           DB::table('states')->insert([
+            'id'  => '2',
+            'nombre'   => 'En Progreso',
+           ]);
+           DB::table('states')->insert([
+            'id'  => '3',
+            'nombre'   => 'Finalizada',
+           ]);
+           DB::table('states')->insert([
+            'id'  => '4',
+            'nombre'   => 'Rechazada',
+           ]);
     }
 }

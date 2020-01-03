@@ -162,5 +162,7 @@ Route::middleware(['auth'])->group(function(){
 	
 	Route::get('aprobarincidents/{incident}', 'IncidentController@aprobarIncidencia')->name('incidents.aprobar');
 
-	Route::put('rechazarAprobacionincidents/{incident}', 'IncidentController@rechazarAprobacionIncidencia')->name('incidents.rechazarAprobacion');
+	Route::put('rechazarAprobacionincidents/{incident}', 'IncidentController@rechazarAprobacionIncidencia')->name('incidents.rechazaraprobacion');
+
+	Route::get('noAprobabasIncidents/{user}', 'IncidentController@noaprobadasIncidencia')->name('incidents.noaprobadas');
 });

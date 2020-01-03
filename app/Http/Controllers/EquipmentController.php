@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Departament;
 use App\Equipment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -29,7 +30,9 @@ class EquipmentController extends Controller
      */
     public function create()
     {
-        return view('equipments.create');
+        $departaments = Departament::all();
+
+        return view('equipments.create', compact('departaments'));
     }
 
     /**
@@ -40,9 +43,11 @@ class EquipmentController extends Controller
      */
     public function store(Request $request)
     {
+        
         $equipment = new Equipment;
 
         $equipment->nombre = $request->nombre;
+        $equipment->departaments_id = $request->departaments_id;
         $equipment->save();
         return redirect()->route('equipments.edit', $equipment->id)->with('info', 'Equipo guardado con éxito');
     }

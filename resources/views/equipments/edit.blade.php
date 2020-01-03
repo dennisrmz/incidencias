@@ -14,7 +14,9 @@
                         <label>Nombre</label>
                         <input type="text" name="nombre" value="{{$equipment->nombre}}">
                         <br>
+                        
                         <input type="submit" name="enviar" value="Actualizar">
+
                     </form>
                 </div>
             </div>

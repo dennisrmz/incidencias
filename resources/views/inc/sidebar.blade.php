@@ -26,6 +26,11 @@
               <a class="nav-link" href="{{ route('incidents.sinaprobacion' , Auth::user()->id) }}">Aprobar Incidencias</a>
             </li>
             @endcan
+            @can('incidents.create')
+            <li>
+              <a class="nav-link" href="{{ route('incidents.noaprobadas' , Auth::user()->id) }}">Incidencias no Aprobadas</a>
+            </li>
+            @endcan
           </ul>
         </li>
         @endcan
