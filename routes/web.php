@@ -165,4 +165,8 @@ Route::middleware(['auth'])->group(function(){
 	Route::put('rechazarAprobacionincidents/{incident}', 'IncidentController@rechazarAprobacionIncidencia')->name('incidents.rechazaraprobacion');
 
 	Route::get('noAprobabasIncidents/{user}', 'IncidentController@noaprobadasIncidencia')->name('incidents.noaprobadas');
+
+	Route::get('asignadasenespera/{user}', 'IncidentController@asignadasenespera')->name('incidents.asignadasenespera');
+
+	Route::post('generarpdf/{user}', 'IncidentController@generarPDF');
 });

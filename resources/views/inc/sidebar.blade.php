@@ -55,9 +55,22 @@
           <a href="{{ route('equipments.index')}}">Equipos</a>
         </li>
         @endcan
-        <li>
-          <a href="#">Contact</a>
+        @can('incidents.create')
+        <li class="active">
+          <a href="#homeSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Reportes</a>
+          <ul class="collapse list-unstyled" id="homeSubmenu2">
+            <li>
+              <a class="nav-link" href="{{ route('incidents.asignadasenespera' , Auth::user()->id) }}">Incidencias Asignadas En Espera </a>
+            </li>
+            <li>
+              <a href="{{ route('incidents.rechazadas' , Auth::user()->id) }}">Incidencias Asignadas Rechazadas</a>
+            </li>
+            <li>
+              <a href="{{ route('incidents.finalizadas' , Auth::user()->id) }}">Incidencias Asignadas Finalizadas </a>
+            </li>
+          </ul>
         </li>
+        @endcan
       </ul>
 
       <div class="footer">

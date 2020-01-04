@@ -35,6 +35,7 @@
                     {{ $incidenciasRechazadas->links() }}
                 </div>
             </div>
+            @can('incidents.create')
             <div class="panel panel-default">
 
                 <div class="panel-heading">Incidencias No Aprobadas</div>
@@ -67,6 +68,7 @@
                     {{ $incidenciasNoAprobadas->links() }}
                 </div>
             </div>
+            @endcan
         </div>
     </div>
 </div>

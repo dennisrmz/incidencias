@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use DateTime;
+use PDF;
 
 class IncidentController extends Controller
 {
@@ -87,7 +88,7 @@ class IncidentController extends Controller
             );
             $incidencia->users()->attach($datos);
         }
-        return redirect()->route('incidents.edit', $incidencia->id)->with('info', 'Incidencia Guardada con Exito');
+        return back()->with('info', 'Incidencia Guardada con Exito');
     }
 
     /**
@@ -428,4 +429,45 @@ class IncidentController extends Controller
         
     }
 
+    public function asignadasenespera(User $user){
+
+        $incidenciasEnEspera = DB::table('incidents')
+        ->join('user_incident', 'incidents.id', 'user_incident.incident_id')
+        ->join('users', 'user_incident.user_id', 'users.id')
+        ->select('incidents.id', 'user_incident.user_id' ,'user_incident.incident_id', 'incidents.descripcion', 'incidents.nombre', 'incidents.fecha_asignacion', 'user_incident.fecha_finalizacion', 'user_incident.state_id')
+        ->where('incidents.usuario_asigno', $user->id)
+        ->where('incidents.estado_aprobacion', 1)
+        ->where('user_incident.state_id', 1)
+        ->orderBy('incidents.fecha_asignacion', 'desc')
+        ->paginate(5);
+
+        $usuarios = User::get();
+        $estados = State::get();
+
+        return view('incidents.incidenciasasignadasespera', compact('incidenciasEnEspera', 'usuarios', 'estados'));
+    }
+
+    public function generarPDF(user $user, Request $request){
+
+        if($request->fecha_inicio < $request->fecha_fin){
+            $incidenciasEnEspera = DB::table('incidents')
+        ->join('user_incident', 'incidents.id', 'user_incident.incident_id')
+        ->join('users', 'user_incident.user_id', 'users.id')
+        ->select('incidents.id', 'user_incident.user_id' ,'user_incident.incident_id', 'incidents.descripcion', 'incidents.nombre', 'incidents.fecha_asignacion', 'user_incident.fecha_finalizacion', 'user_incident.state_id')
+        ->where('incidents.usuario_asigno', $user->id)
+        ->where('incidents.estado_aprobacion', 1)
+        ->where('user_incident.state_id', 1)
+        ->whereBetween('incidents.fecha_asignacion', [$request->fecha_inicio, $request->fecha_fin])
+        ->orderBy('incidents.fecha_asignacion', 'desc')
+        ->get();
+        
+
+        $usuarios = User::get();
+        $estados = State::get();
+        $pdf = PDF::loadView('incidents.pdfenespera', compact('incidenciasEnEspera', 'usuarios', 'estados'));
+        return $pdf->download('incidenciasEnEspera.pdf');
+        }else{
+            return back()->with('danger', 'La fecha de inicio debe ser menor, a la fecha de fin');
+        }
+    }
 }
