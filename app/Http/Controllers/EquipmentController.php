@@ -103,14 +103,15 @@ class EquipmentController extends Controller
 
     public function getEquipment(Request $request)
     {
-        
         if ($request->ajax()){
            $equipos = Equipment::where('departaments_id', $request->departamento_id)->get();
-           
+           $equiposArray = array();
+
            foreach($equipos as $equipo){
                $equiposArray[$equipo->id] = $equipo->nombre;
            }
-        return response()->json($equiposArray);
+           
+           return response()->json($equiposArray);
         }
     }
 }

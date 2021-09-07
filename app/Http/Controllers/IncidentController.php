@@ -425,7 +425,7 @@ class IncidentController extends Controller
             $estados = State::get();
             $departamentos = Departament::get();
     
-            return view('incidents.noaprobadas', compact('incidenciasNoAprobadas', 'usuarios', 'estados', 'departamentos', 'usuariosIncidencia'));
+            return view('incidents.noaprobadas', compact('incidenciasNoAprobadas', 'usuarios', 'estados', 'departamentos'));
         
     }
 

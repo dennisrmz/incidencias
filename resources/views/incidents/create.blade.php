@@ -223,7 +223,7 @@
                     });
                     $.ajax({
                         type: 'POST',
-                        url: 'http://localhost:8000/equipmentsid',
+                        url: '/equipmentsid',
                         data: {
                             "departamento_id": seleccion
                         },
@@ -289,7 +289,7 @@
                     });
                     $.ajax({
                         type: 'POST',
-                        url: 'http://localhost:8000/equipmentsid',
+                        url: '/equipmentsid',
                         data: {
                             "departamento_id": departamento_id
                         },
@@ -352,7 +352,7 @@
                 });
                 $.ajax({
                     type: 'POST',
-                    url: 'http://localhost:8000/usersid',
+                    url: '/usersid',
                     data: {
                         "equipo_id": equipo_id
                     },
