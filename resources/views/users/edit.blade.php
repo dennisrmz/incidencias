@@ -103,7 +103,7 @@
                 });
                 $.ajax({
                     type: 'POST',
-                    url: 'http://localhost:8000/equipmentsid',
+                    url: '/equipmentsid',
                     data: {
                         "departamento_id": departamento_id
                     },
