@@ -14,10 +14,10 @@ class CreateIncidentsTable extends Migration
     public function up()
     {
         Schema::create('incidents', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('nombre');
             $table->string('codigo');
-            $table->integer('usuario_asigno');
+            $table->bigInteger('usuario_asigno');
             $table->string('descripcion');
             $table->boolean('estado_aprobacion');
             $table->date('fecha_asignacion')->timestamps();

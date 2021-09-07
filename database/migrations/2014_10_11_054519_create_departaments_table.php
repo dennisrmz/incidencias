@@ -14,10 +14,10 @@ class CreateDepartamentsTable extends Migration
     public function up()
     {
         Schema::create('departaments', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('nombre');
             $table->boolean('activo')->default(1);
-            $table->integer('id_lider');
+            $table->bigInteger('id_lider');
             $table->timestamps();
         });
     }

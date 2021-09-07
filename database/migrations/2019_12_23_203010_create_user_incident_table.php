@@ -14,12 +14,12 @@ class CreateUserIncidentTable extends Migration
     public function up()
     {
         Schema::create('user_incident', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id')->unsigned();
+            $table->bigIncrements('id');
+            $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->integer('incident_id')->unsigned();
+            $table->bigInteger('incident_id')->unsigned();
             $table->foreign('incident_id')->references('id')->on('incidents')->onDelete('cascade');
-            $table->integer('state_id')->unsigned()->default(1);
+            $table->bigInteger('state_id')->unsigned()->default(1);
             $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');
             $table->timestamps();
         });
