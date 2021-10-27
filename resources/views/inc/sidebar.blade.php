@@ -68,6 +68,9 @@
             <li>
               <a href="{{ route('incidents.finalizadas' , Auth::user()->id) }}">Incidencias Asignadas Finalizadas </a>
             </li>
+            <li>
+              <a href="{{ route('incidents.finalizadas' , Auth::user()->id) }}">Incidencias Asignadas Finalizadas </a>
+            </li>
           </ul>
         </li>
         @endcan
