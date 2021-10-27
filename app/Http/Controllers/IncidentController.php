@@ -465,6 +465,16 @@ class IncidentController extends Controller
         $usuarios = User::get();
         $estados = State::get();
         $pdf = PDF::loadView('incidents.pdfenespera', compact('incidenciasEnEspera', 'usuarios', 'estados'));
+        $pdf->output();
+        $dom_pdf = $pdf->getDomPDF();
+        $canvas = $dom_pdf ->get_canvas();
+        $w = $canvas->get_width();
+        $h = $canvas->get_height();
+        $canvas->page_text(140, 20, date('d-m-Y'), null, 9, array(0, 0, 0));
+        $canvas->page_text(190, 20, "| Sistema informático de Apoyo a Incidencias en la empresa DataGuard | SICI", null, 9, array(0, 0, 0));
+        $canvas->page_text($w-55,$h-28, "{PAGE_NUM} / {PAGE_COUNT}", null, 9, array(0, 0, 0));
+        $canvas->page_text($w-560,$h-28,"http://dataguard.online.com/", null, 9, array(0, 0, 0));
+
         return $pdf->download('incidenciasEnEspera.pdf');
         }else{
             return back()->with('danger', 'La fecha de inicio debe ser menor, a la fecha de fin');

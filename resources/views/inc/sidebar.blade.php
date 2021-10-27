@@ -1,6 +1,6 @@
 <nav id="sidebar">
     <div class="p-4 pt-5">
-      <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(/images/logo.jpg);"></a>
+      <a href="#" class="img logo  mb-2" style="background-image: url(/images/dataguard.PNG);"></a>
      
       <ul class="list-unstyled components mb-5">
         @can('incidents.index')
@@ -78,7 +78,7 @@
           <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
           Copyright &copy;<script>
             document.write(new Date().getFullYear());
-          </script> All rights reserved<i class="icon-heart" aria-hidden="true"></i> by <a href="https://clobi.online" target="_blank">clobi.online</a>
+          </script> All rights reserved<i class="icon-heart" aria-hidden="true"></i> by <a href="https://dataguard.online" target="_blank">dataguard.online</a>
           <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
         </p>
       </div>
