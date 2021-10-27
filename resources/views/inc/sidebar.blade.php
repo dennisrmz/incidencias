@@ -69,7 +69,7 @@
               <a href="{{ route('incidents.finalizadas' , Auth::user()->id) }}">Incidencias Asignadas Finalizadas </a>
             </li>
             <li>
-              <a href="{{ route('incidents.finalizadas' , Auth::user()->id) }}">Incidencias Asignadas Finalizadas </a>
+              <a href="{{ route('incidents.finalizadas' , Auth::user()->id) }}">Incidencias Departamento/fecha</a>
             </li>
           </ul>
         </li>
