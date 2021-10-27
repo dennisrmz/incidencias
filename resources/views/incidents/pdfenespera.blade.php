@@ -11,8 +11,8 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <p style="text-align: center"><h3>Reporte de Asignaciones en Espera</h3></p>
-                <img src="{{ public_path('dataguard.PNG') }}" style="width: 200px; height: 200px">
+                <p style="text-align: center"><h3 style="text-align: center">Reporte de Asignaciones en Espera</h3></p>
+               
                 <div class="panel-body">
                     @foreach($incidenciasEnEspera as $incidencia)
                     <div class="shadow rounded card borde">
