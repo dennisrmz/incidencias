@@ -11,18 +11,18 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <p style="text-align: center">Reporte de Asignaciones en Espera</p>
-                <img src="public/images/dataguard.PNG">
+                <p style="text-align: center"><h3>Reporte de Asignaciones en Espera</h3></p>
+                <img src="{{ public_path('dataguard.PNG') }}" style="width: 200px; height: 200px">
                 <div class="panel-body">
                     @foreach($incidenciasEnEspera as $incidencia)
                     <div class="shadow rounded card borde">
-                        <h5 class="card-header">Asignada a:
+                        <h3 style="text-align: center" class="card-header">Asignada a:
                             @foreach($usuarios as $usuario)
                                 @if($usuario->id == $incidencia->user_id)
                                     {{ $usuario->name }}
                                 @endif
                             @endforeach
-                        </h5>
+                        </h3>
                         
                         <div class="card-body">
                             <h5 class="card-title">Nombre de Incidencia: {{ $incidencia->nombre }}</h5>
