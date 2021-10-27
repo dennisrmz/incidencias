@@ -474,6 +474,7 @@ class IncidentController extends Controller
         $canvas->page_text(190, 20, "| Sistema informático de Apoyo a Incidencias en la empresa DataGuard | SICI", null, 9, array(0, 0, 0));
         $canvas->page_text($w-55,$h-28, "{PAGE_NUM} / {PAGE_COUNT}", null, 9, array(0, 0, 0));
         $canvas->page_text($w-560,$h-28,"http://dataguard.online.com/", null, 9, array(0, 0, 0));
+        
 
         return $pdf->download('incidenciasEnEspera.pdf');
         }else{

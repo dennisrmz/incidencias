@@ -6,7 +6,8 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">Incidencias Rechazadas</div>
-
+                
+                <img src="{{ public_path('dataguard.PNG') }}" style="width: 200px; height: 200px">
                 <div class="panel-body">
                     @foreach($incidenciasRechazadas as $incidencia)
                     <div class="shadow rounded card borde">

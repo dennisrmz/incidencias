@@ -1,7 +1,6 @@
 <nav id="sidebar">
     <div class="p-4 pt-5">
       <a href="#" class="img logo  mb-2" style="background-image: url(/images/dataguard.PNG);"></a>
-     
       <ul class="list-unstyled components mb-5">
         @can('incidents.index')
         <li class="active">
